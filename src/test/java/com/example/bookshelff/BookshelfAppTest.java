@@ -23,6 +23,7 @@ public class BookshelfAppTest {
 
     private BookshelfApp bookshelfApp;
 
+
     @BeforeAll
     public static void beforeAll(){
         RestAssured.port = APP_PORT;
@@ -35,7 +36,14 @@ public class BookshelfAppTest {
 
     @AfterEach
     public void afterEach() throws SQLException, ClassNotFoundException {
-        bookshelfApp.requestUrlMapper.getBookController().getBookStorage().getAllBooks().clear();
+//        bookshelfApp.requestUrlMapper.getBookController().getBookStorage().getAllBooks().clear();
+//        bookshelfApp.stop();
+        try {
+            bookshelfApp.requestUrlMapper.getBookController().getBookStorage().;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         bookshelfApp.stop();
     }
 

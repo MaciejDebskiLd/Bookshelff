@@ -13,6 +13,15 @@ public class PostgresBookStorageImpl implements BookStorage {
     private final static String DATABASE_USER = "postgres";
     private final static String DATABASE_PASS = "programator";
 
+    private static List<Book> bookStorage = new ArrayList<Book>();
+    static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error " + e.getMessage());
+        }
+    }
+
     @Override
     public Book getBook(long id) throws SQLException, ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
@@ -102,5 +111,15 @@ public class PostgresBookStorageImpl implements BookStorage {
         connection.close();
 
         return -1;
+    }
+    public void removeDataFromDB() throws SQLException{
+        Connection connection = DriverManager.getConnection(JDBC_URL, DATABASE_USER, DATABASE_PASS);
+        Statement statement = connection.createStatement();
+
+        statement.execute("DELETE FROM public.books;");
+        bookStorage.clear();
+
+        statement.close();
+        connection.close();
     }
 }
