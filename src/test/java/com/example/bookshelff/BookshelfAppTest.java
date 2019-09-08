@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
@@ -32,7 +34,8 @@ public class BookshelfAppTest {
     }
 
     @AfterEach
-    public void afterEach(){
+    public void afterEach() throws SQLException, ClassNotFoundException {
+        bookshelfApp.requestUrlMapper.getBookController().getBookStorage().getAllBooks().clear();
         bookshelfApp.stop();
     }
 
@@ -97,7 +100,7 @@ public class BookshelfAppTest {
 
     @Test
     public void getAllMethod_0Books_shouldReturnStatus200(){
-        when().get("/books/getAll").then().statusCode(200).body("", hasSize(0));
+        when().get("/book/getAll").then().statusCode(200).body("", hasSize(0));
     }
 
     @Test
